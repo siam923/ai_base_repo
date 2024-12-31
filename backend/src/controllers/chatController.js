@@ -50,7 +50,7 @@ export const postChat = async (req, res) => {
 
   if (!chat) {
     const title = await generateTitleFromUserMessage({ message: userMessage });
-    chat = await createChat({ userId, title });
+    chat = await createChat({ id, userId, title });
     // Use the newly created chat ID
   }
 
@@ -59,7 +59,7 @@ export const postChat = async (req, res) => {
   await createMessage({
     ...userMessage,
     id: userMessageId,
-    chatId: chat._id,
+    chatId: chat.id,
   });
 
   // Stream the response to the client
@@ -99,7 +99,7 @@ export const postChat = async (req, res) => {
 
                     return {
                       id: messageId,
-                      chatId: chat._id,
+                      chatId: chat.id,
                       role: message.role,
                       content: message.content,
                     };

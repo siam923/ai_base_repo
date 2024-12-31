@@ -7,9 +7,9 @@ import { generateTitleFromUserMessage } from './aiService.js';
  * @param {Object} chatData - { title, userId }
  * @returns {Promise<Chat>}
  */
-const createChat = async ({ title, userId, projectId }) => {
+const createChat = async ({ id, title, userId, projectId }) => {
   try {
-    const chat = new Chat({ title, userId, projectId });
+    const chat = new Chat({ id, title, userId, projectId });
     return await chat.save();
   } catch (error) {
     console.error('Failed to create chat:', error);
@@ -35,7 +35,7 @@ const getOrCreateChat = async (chatId, userId, userMessage, projectId='') => {
 const getChatById = async (id) => {
   try {
     if (!id) return null;
-    return await Chat.findById(id);
+    return await Chat.findOne({ id }).exec();
   } catch (error) {
     console.error('Failed to get chat by ID:', error);
     throw error;
@@ -78,7 +78,7 @@ const updateChatById = async (id, updateData) => {
  */
 const deleteChatById = async (id) => {
   try {
-    return await Chat.findByIdAndDelete(id).exec();
+    return await Chat.findOneAndDelete({ id: id });
   } catch (error) {
     console.error('Failed to delete chat:', error);
     throw error;

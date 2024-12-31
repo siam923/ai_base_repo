@@ -10,7 +10,7 @@ import { generateUUID } from '#src/utils/dbUtils.js';
  */
 const createMessage = async ({ id, chatId, role, content }) => {
   try {
-    const message = new Message({ _id:id, chatId, role, content });
+    const message = new Message({ id, chatId, role, content });
     return await message.save();
   } catch (error) {
     console.error('Failed to create message:', error);
@@ -35,7 +35,7 @@ const createMultipleMessages = async ({ messages }) => {
  */
 const getMessageById = async (id) => {
   try {
-    return await Message.findById(id).exec();
+    return await Message.findOne({id}).exec();
   } catch (error) {
     console.error('Failed to get message by ID:', error);
     throw error;
@@ -49,7 +49,7 @@ const getMessageById = async (id) => {
  */
 const getMessagesByChatId = async (chatId) => {
   try {
-    return await Message.find({ chatId }).sort({ createdAt: 1 }).exec();
+    return await Message.find({ chatId }).sort({ createdAt: 1 });
   } catch (error) {
     console.error('Failed to get messages by chat ID:', error);
     throw error;
@@ -64,7 +64,7 @@ const getMessagesByChatId = async (chatId) => {
  */
 const updateMessageById = async (id, updateData) => {
   try {
-    return await Message.findByIdAndUpdate(id, updateData, { new: true }).exec();
+    return await Message.findOneAndUpdate({ id }, updateData, { new: true });
   } catch (error) {
     console.error('Failed to update message:', error);
     throw error;

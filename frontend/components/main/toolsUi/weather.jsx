@@ -11,11 +11,11 @@ export function Weather({ weatherAtLocation }) {
         <div className="flex flex-row gap-2 items-center">
           <div className="size-10 rounded-full bg-yellow-300"></div>
           <div className="text-4xl font-medium text-blue-50">
-            {weatherAtLocation.temperature}°C
+            {weatherAtLocation?.temperature}°C
           </div>
         </div>
 
-        <div className="text-blue-50">{weatherAtLocation.location}</div>
+        <div className="text-blue-50">{weatherAtLocation?.location}</div>
       </div>
     </div>
   );

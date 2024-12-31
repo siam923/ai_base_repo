@@ -33,7 +33,7 @@ export function Chat({
     stop,
     reload,
   } = useChat({
-    api: `${BASE_URL}/api/chat/weather-ai`,
+    api: `${BASE_URL}/api/chat/send`,
     headers: { 
       "accesstoken": getLocalStorage("accessToken"),
       "x-project-id": getLocalStorage("projectId")

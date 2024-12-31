@@ -1,4 +1,5 @@
 // controllers/historyController.js
+import Chat from '#src/models/Chat.js';
 import { deleteMessagesByChatIdAfterTimestamp, getMessagesByChatId } from '#src/services/messageService.js';
 import { deleteChatById, getChatById, getChatsByUserId } from '../services/chatService.js';
 
@@ -8,7 +9,6 @@ import { deleteChatById, getChatById, getChatsByUserId } from '../services/chatS
  */
 export const getHistory = async (req, res) => {
   try {
-   console.log(req.user)
     const userId = req.user.id; 
     const chats = await getChatsByUserId(userId);
     if (!chats) {
@@ -38,7 +38,7 @@ export const deleteChat = async (req, res) => {
     const userId = req.user.id.toString();
 
     // Fetch the chat by ID
-    const chat = await getChatById({ id });
+    const chat = await getChatById(id);
 
     if (!chat) {
       return res.status(404).json({ message: 'Chat not found' });
@@ -48,9 +48,8 @@ export const deleteChat = async (req, res) => {
     if (chat.userId.toString() !== userId) {
       return res.status(403).json({ message: 'Forbidden: You cannot delete this chat' });
     }
-
     // Delete the chat
-    await deleteChatById({ id });
+    await deleteChatById(id);
 
     res.status(200).json({ message: 'Chat deleted successfully' });
   } catch (error) {

@@ -1,12 +1,13 @@
 // models/Message.js
-import { v4 as uuidv4 } from 'uuid';
 import mongoose, {  Schema } from 'mongoose';
+import { generateUUID } from '#src/utils/dbUtils.js';
 
 const MessageSchema = new Schema(
   {
-    _id: {
+    id: {
       type: String,
-      default: uuidv4,
+      default: generateUUID,
+      unique: true,
     },
     
     chatId: {
@@ -26,7 +27,6 @@ const MessageSchema = new Schema(
   },
   {
     timestamps: true,
-    _id: false,
   }
 );
 

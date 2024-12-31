@@ -72,7 +72,7 @@ export function SidebarHistory({ user }) {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const deletePromise = fetch(`${BASE_URL}/api/chat?id=${deleteId}`, {
+      const deletePromise = fetch(`${BASE_URL}/api/history?id=${deleteId}`, {
         method: 'DELETE',
         headers: {
           'accesstoken': `${accessToken}`,
@@ -82,7 +82,7 @@ export function SidebarHistory({ user }) {
       toast.promise(deletePromise, {
         loading: 'Deleting chat...',
         success: () => {
-          mutate((history) => history?.filter((h) => h._id !== id));
+          mutate((history) => history?.filter((h) => h.id !== id));
           if (deleteId === id) {
             router.push('/');
           }
@@ -189,9 +189,9 @@ export function SidebarHistory({ user }) {
           <SidebarMenu>
             {history.map((chat) => (
               <ChatItem
-                key={chat._id}
+                key={chat.id}
                 chat={chat}
-                isActive={chat._id === id}
+                isActive={chat.id === id}
                 onDelete={(chatId) => {
                   setDeleteId(chatId);
                   setShowDeleteDialog(true);

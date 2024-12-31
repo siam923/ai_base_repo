@@ -29,7 +29,7 @@ const PureChatItem = ({ chat, isActive, onDelete, setOpenMobile }) => {
     return (
       <SidebarMenuItem>
         <SidebarMenuButton asChild isActive={isActive}>
-          <Link href={`/chat/${chat._id}`} onClick={() => setOpenMobile(false)}>
+          <Link href={`/chat/${chat.id}`} onClick={() => setOpenMobile(false)}>
             <span>{chat.title}</span>
           </Link>
         </SidebarMenuButton>
@@ -78,7 +78,7 @@ const PureChatItem = ({ chat, isActive, onDelete, setOpenMobile }) => {
   
             <DropdownMenuItem
               className="cursor-pointer text-destructive focus:bg-destructive/15 focus:text-destructive dark:text-red-500"
-              onSelect={() => onDelete(chat._id)}
+              onSelect={() => onDelete(chat.id)}
             >
               <TrashIcon />
               <span>Delete</span>

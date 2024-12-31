@@ -18,7 +18,7 @@ export default async function Page() {
 
   return (
     <>
-      <ChatHeader chatId={id} selectedModelId={selectedModelId} />
+      <ChatHeader selectedModelId={selectedModelId} />
       <Chat
         key={id}
         id={id}

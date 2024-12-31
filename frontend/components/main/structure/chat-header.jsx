@@ -17,9 +17,7 @@ import AddTokenDialog from "../forms/add-token-dialog";
 import { SidebarToggle } from "./sidebar-toggle";
 
 function PureChatHeader({
-  chatId,
   selectedModelId,
-  selectedVisibilityType,
   isReadonly,
 }) {
   const router = useRouter();
