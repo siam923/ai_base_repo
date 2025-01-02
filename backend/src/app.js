@@ -31,7 +31,7 @@ app.use(cors());
 // Register API Routes
 app.use('/api/history', historyRoutes);
 app.use('/api/suggest', suggestionsRoutes);
-app.use('/api/docs', documentRoutes);
+app.use('/api/document', documentRoutes);
 app.use('/api/chat', chatRoutes);
 
 // Catch unhandled routes (404)

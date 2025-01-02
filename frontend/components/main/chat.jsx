@@ -7,12 +7,12 @@ import useSWR, { useSWRConfig } from "swr";
 import { fetcher, getLocalStorage } from "@/lib/utils";
 import { BASE_URL } from "@/data/api-handler";
 import { MultimodalInput } from "./forms/multimodal-input";
-import { ChatHeader } from "./structure/chat-header";
 import { Messages } from "./messages";
 
 // import { Block } from './block';
 // import { VisibilityType } from './visibility-selector';
-// import { useBlockSelector } from '@/hooks/use-block';
+import { useBlockSelector } from '@/hooks/use-block';
+import { Block } from "./toolsUi/block/block";
 
 export function Chat({
   id,
@@ -47,7 +47,7 @@ export function Chat({
     },
   });
 
-  //   const isBlockVisible = useBlockSelector((state) => state.isVisible);
+    const isBlockVisible = useBlockSelector((state) => state.isVisible);
 
   return (
     <>
@@ -58,7 +58,7 @@ export function Chat({
           messages={messages}
           setMessages={setMessages}
           reload={reload}
-          // isBlockVisible={isBlockVisible}
+          isBlockVisible={isBlockVisible}
         />
 
         <form className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
@@ -78,7 +78,7 @@ export function Chat({
         </form>
       </div>
 
-      {/* <Block
+      <Block
         chatId={id}
         input={input}
         setInput={setInput}
@@ -89,9 +89,7 @@ export function Chat({
         messages={messages}
         setMessages={setMessages}
         reload={reload}
-        votes={votes}
-        isReadonly={isReadonly}
-        /> */}
+        />
     </>
   );
 }

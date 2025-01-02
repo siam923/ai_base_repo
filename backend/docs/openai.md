@@ -21,5 +21,5 @@
       "x-ratelimit-remaining-tokens": "9999972",
       "x-ratelimit-reset-requests": "6ms",
       "x-ratelimit-reset-tokens": "0s",
-      "x-request-id": "req_d44fcf4b6af4b8cfae30501c0cc8c346"
+      "x-request-id": "req_"
     }

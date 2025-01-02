@@ -3,6 +3,7 @@ import { customModel } from "#src/lib/ai/index.js";
 import { generateUUID } from "#src/utils/dbUtils.js";
 import {
   allTools,
+  blocksToolsDef,
   weatherToolDef,
   weatherTools,
 } from "#src/lib/tools/toolsDef.js";
@@ -22,10 +23,14 @@ import {
   pipeDataStreamToResponse,
   streamText,
 } from "ai";
-
-const systemPrompt = `You are a helpful assistant, you can help user to get weather data.`;
+import { systemPrompt } from "#src/lib/ai/prompts.js";
+import { z } from "zod";
 
 export const postChat = async (req, res) => {
+  // return res.json({tools: {
+  //   ...weatherToolDef,
+  //   ...blocksToolsDef('siam'),
+  // }})
   const { id, messages, modelId = "gpt-4o-mini" } = req.body;
 
   const userId = req.user?.id.toString();
@@ -62,6 +67,10 @@ export const postChat = async (req, res) => {
     chatId: chat.id,
   });
 
+  const context = {
+    chatId: chat._id,
+  }
+
   // Stream the response to the client
   return pipeDataStreamToResponse(res, {
     execute: async (dataStream) => {
@@ -71,15 +80,18 @@ export const postChat = async (req, res) => {
         content: userMessageId,
       });
 
+
+
       // Stream the AI response
       const result = streamText({
         model: customModel(model.apiIdentifier),
         system: systemPrompt,
         messages: coreMessages,
         maxSteps: 5,
-        experimental_activeTools: weatherTools,
+        experimental_activeTools: allTools,
         tools: {
           ...weatherToolDef,
+          ...blocksToolsDef(dataStream, context),
         },
         onFinish: async ({ response }) => {
           if (userId) {

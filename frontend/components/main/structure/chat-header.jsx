@@ -18,7 +18,6 @@ import { SidebarToggle } from "./sidebar-toggle";
 
 function PureChatHeader({
   selectedModelId,
-  isReadonly,
 }) {
   const router = useRouter();
   const { open } = useSidebar();
@@ -66,12 +65,12 @@ function PureChatHeader({
         </Tooltip>
       )}
 
-      {!isReadonly && (
+
         <ModelSelector
           selectedModelId={selectedModelId}
           className="order-1 md:order-2"
         />
-      )}
+   
 
       <div className="md:flex py-1.5 px-2 h-fit md:h-[34px] order-4 md:ml-auto">
         <AddTokenDialog />

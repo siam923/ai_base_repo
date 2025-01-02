@@ -45,8 +45,8 @@ export function SidebarHistory({ user }) {
   fetcher,
   {
     revalidateOnFocus: false,
-    refreshInterval: 30000, // Refresh every 30 seconds
-    shouldRetryOnError: true,
+    refreshInterval: 1000000, // Refresh every 1000 seconds = 16.6 minutes
+    shouldRetryOnError: false,
     onError: (err) => {
       toast.error('Failed to load chat history');
       console.error('SWR Error:', err);

@@ -14,7 +14,8 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { MessageEditor } from './forms/message-editor';
-// import { DocumentPreview } from './toolsUi/document-preview';
+import { DocumentPreview } from './toolsUi/document-preview';
+
  
 const PurePreviewMessage = ({
   chatId,
@@ -110,10 +111,10 @@ const PurePreviewMessage = ({
                         {toolName === 'getWeather' ? (
                           <Weather weatherAtLocation={result} />
                         ) : toolName === 'createDocument' ? (
-                        //   <DocumentPreview
-                        //     result={result}
-                        //   />
-                        console.log(result)
+                          <DocumentPreview
+                            result={result}
+                          />
+                          
                         ) : toolName === 'updateDocument' ? (
                         //   <DocumentToolResult
                         //     type="update"
@@ -136,8 +137,8 @@ const PurePreviewMessage = ({
                       {toolName === 'getWeather' ? (
                         <Weather />
                       ) : toolName === 'createDocument' ? (
-                        // <DocumentPreview args={args} />
-                        console.log(args)
+                        <DocumentPreview args={args} />
+                      
                       ) : toolName === 'updateDocument' ? (
                         // <DocumentToolCall
                         //   type="update"

@@ -12,12 +12,10 @@ import { cx } from 'class-variance-authority';
 //     | 'code-delta'
 //     | 'title'
 //     | 'id'
-//     | 'suggestion'
 //     | 'clear'
 //     | 'finish'
 //     | 'user-message-id'
 //     | 'kind';
-//   content: string | Suggestion;
 // };
 
 export function DataStreamHandler({ id }) {

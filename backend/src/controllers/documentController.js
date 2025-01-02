@@ -1,8 +1,9 @@
 // controllers/documentController.js
 import {
     getDocumentById,
-    createDocument,
     deleteDocumentsByIdAfterTimestamp,
+    saveDocument,
+    getDocumentsById,
   } from '#src/services/documentService.js';
   
   /**
@@ -11,64 +12,79 @@ import {
    */
   export const getDocument = async (req, res) => {
     try {
-      const { id } = req.query;
+      const { id } = req.params;
   
       if (!id) {
         return res.status(400).json({ message: 'Missing document ID' });
       }
   
-      const documents = await getDocumentById({ id });
+      const document = await getDocumentById(id); // Retrieves the latest version of the document
   
-      if (documents.length === 0) {
+      if (!document) {
         return res.status(404).json({ message: 'Document not found' });
       }
   
-      const document = documents[0];
-  
-      // Authorization: Ensure the user owns the document
-      if (document.chatId.toString() !== req.user._id.toString()) {
-        return res.status(401).json({ message: 'Unauthorized: Access denied' });
-      }
-  
-      res.status(200).json(documents);
+      res.status(200).json(document);
     } catch (error) {
       console.error('Error fetching document:', error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
-  
-  /**
-   * POST /api/document?id=...
-   * Creates or updates a document.
-   */
-  export const createOrUpdateDocument = async (req, res) => {
+
+  export const getDocuments = async (req, res) => {
     try {
-      const { id } = req.query;
+      const { id } = req.params;
   
       if (!id) {
         return res.status(400).json({ message: 'Missing document ID' });
       }
   
-      const { content, title, kind } = req.body;
+      const documents = await getDocumentsById(id); // Fetches all versions
   
-      if (!content || !title || !kind) {
-        return res.status(400).json({ message: 'Missing required fields: content, title, or kind' });
+      if (documents.length === 0) {
+        return res.status(404).json({ message: 'No documents found' });
       }
   
-      const document = await createDocument({
+  
+      res.status(200).json(documents);
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
+
+  export const saveDocumentHandler = async (req, res) => {
+    try {
+      const { id } = request.query
+      const {  title, content, kind, chatId } = req.body;
+  
+      // Validate input fields
+      if (!id || !title || !kind || !chatId) {
+        return res.status(400).json({ message: 'Missing required fields' });
+      }
+  
+      // Save the new version of the document
+      const newDocument = await saveDocument({
         id,
-        content,
         title,
+        content,
         kind,
-        userId: req.user._id.toString(),
+        chatId,
       });
   
-      res.status(200).json(document);
+      res.status(201).json(newDocument);
     } catch (error) {
+      if (error.code === 11000) {
+        // Handle unique constraint error gracefully
+        return res.status(400).json({ message: 'Duplicate document version detected' });
+      }
+  
       console.error('Error saving document:', error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
+ 
   
   /**
    * PATCH /api/document?id=...
